@@ -2,49 +2,19 @@ import { StatusBar } from 'expo-status-bar';
 import React,{useState,useEffect,useCallback} from 'react';
 import { StyleSheet, Text, View,TextInput,TouchableOpacity,ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as firebase from 'firebase'
-import { GiftedChat } from 'react-native-gifted-chat';
-import 'firebase/firestore';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAAy0x_19_wER305JzTJ919WGCTYIaZ1hE",
-  authDomain: "chat-602a5.firebaseapp.com",
-  projectId: "chat-602a5",
-  storageBucket: "chat-602a5.appspot.com",
-  messagingSenderId: "665688031963",
-  appId: "1:665688031963:web:cdd6df5d288fa45d9e42fe"
-};
-
-if (firebase.apps.length == 0){
-  firebase.initializeApp(firebaseConfig);
-}
-
-const db = firebase.firestore();
-const chatRef = db.collection('chats');
 
 
 export default function App() {
 
-const [messages,setMessages] = useState([]);
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [firstName,setFirstName] = useState('');
 const [LastName,setLastName] = useState('');
 
-useEffect(() => {
-  const unsubscribe = chatRef.onSnapshot((querySnepshot) => {
-    const messageFirestore = querySnepshot
-    .docChanges
-    .filter(({ type }) => type === 'added')
-    .map(({ doc }) => {
-      const message = doc.data();
-      return { ...message, createdAt: message.createdAt.toDate }
-    })
-    ///.sort((a,b) => b.createdAt.getTime() - a.createdAt.getTime())
-    appendMessage(messageFirestore);
-  })
-  return () => unsubscribe();
-},[]);
+
+
+
 
 
 
@@ -133,6 +103,8 @@ const users = [
       firstName != '' ? 
       (
         <View style={{width:"100%"}}><Text>Hello {firstName} {LastName}</Text>
+           
+        
         <TouchableOpacity onPress={logout}
       style={{width:'100%',paddingVertical:15,backgroundColor:'#0099cc',alignItems: 'center',borderRadius:20,marginTop:12}}>
           
